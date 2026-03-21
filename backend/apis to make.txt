@@ -5,13 +5,14 @@ DONE APIs:
 4. edit profile (user) {user}
 5. create project (user) {user}
 6. enter project using code (user) {user}
-
-TODO APIs:
-
 7. get all projects (user) {project}
 8. get project by id (tasks and members) (anyone in project) {project}
 9. update project (owner) {project}
 10. delete project (owner) {project}
+
+
+TODO APIs:
+
 11. accept member request (user) {project}
 12. reject member request (user) {project}
 13. get all members of project (anyone in project)(owner also get the requests) {project}
