@@ -4,11 +4,15 @@ const cors = require("cors");
 const path = require('path');
 const logger = require("./config/logger");
 const sequelize = require("./config/database");
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+const loginRoutes = require('./routes/login_routes');
+
 app.use(cors());
 app.use(express.json());
+
 
 // ✅ Health check endpoint
 app.get('/health', (req, res) => {
@@ -25,7 +29,7 @@ sequelize.sync({ alter: true })
         logger.error('❌ Failed to sync DB:', err);
 });
 
-
+app.use('/api/v1/login', loginRoutes);
 
 // ✅ Global error handler
 app.use((error, req, res, next) => {
