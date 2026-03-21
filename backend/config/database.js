@@ -20,7 +20,7 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     dialect: process.env.DB_DIALECT || 'postgres',
-    logging: (query) => logger.log('db', query), //Logs SQL queries in cyan
+    logging: false//(query) => logger.log('db', query), 
   }
 );
 

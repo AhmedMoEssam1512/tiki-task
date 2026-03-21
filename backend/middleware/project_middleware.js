@@ -14,6 +14,7 @@ const projectExist = asyncwrapper(async (req, res, next) => {
             message: 'Project not found'
         });
     }
+    logger.debug(`Project found : ${JSON.stringify(project)}`);
     req.project = project;
     next();
 })

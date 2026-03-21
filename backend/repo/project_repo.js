@@ -15,7 +15,18 @@ function findById(id){
     return Project.findByPk(id);
 }
 
+async function update(project, projectData){
+    const updatedProject = await project.update(projectData);
+    return updatedProject;
+}
+
+async function deleteProject(project){
+    return project.destroy();
+}
+
 module.exports = {
     create,
-    findById
+    findById,
+    update,
+    deleteProject
 }   

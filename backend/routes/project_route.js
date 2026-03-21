@@ -9,6 +9,8 @@ router.route('/get_all_projects')
     .get(protect, projectController.getAllProjects);
 
 router.route('/:id')
-    .get(protect, projectMiddleware.projectExist, projectMiddleware.isMember, projectController.getProjectById);
+    .get(protect, projectMiddleware.projectExist, projectMiddleware.isMember, projectController.getProjectById)
+    .patch(protect, projectMiddleware.projectExist, projectMiddleware.isOwner, projectController.updateProject)
+    .delete(protect, projectMiddleware.projectExist, projectMiddleware.isOwner, projectController.deleteProject);
 
 module.exports = router;
