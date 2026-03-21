@@ -4,10 +4,10 @@ DONE APIs:
 3. me (user) {login}
 4. edit profile (user) {user}
 5. create project (user) {user}
+6. enter project using code (user) {user}
 
 TODO APIs:
 
-6. enter project using code (user) {user}
 7. get all projects (user) {project}
 8. get project by id (tasks and members) (anyone in project) {project}
 9. update project (owner) {project}
@@ -26,3 +26,4 @@ TODO APIs:
 22. forget password (user) {user}
 23. otp verification (user) {user}
 24. reset password (user) {user}   
+25. delete user (user) {user}

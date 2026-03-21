@@ -11,6 +11,11 @@ async function create(projectData) {
     return project;
 }
 
+function findById(id){
+    return Project.findByPk(id);
+}
+
 module.exports = {
-    create
+    create,
+    findById
 }   

@@ -2,6 +2,7 @@ const {asyncwrapper} = require('../utils/asyncwrapper')
 const userRepo = require('../repo/user_repo')
 const projectRepo = require('../repo/project_repo')
 const logger = require('../config/logger')
+const assignedRepo = require('../repo/assigned_repo')
 
 const editProfile = asyncwrapper(async (req, res, next) => {
     req.body.id = req.user.id;
@@ -49,10 +50,24 @@ const createProject = asyncwrapper(async (req, res) => {
     })
 })
 
-//const enterProjectUsingCode = asyncwrapper(async (req, res, next) => {})
+const enterProjectUsingCode = asyncwrapper(async (req, res) => {
+    const assigned = await assignedRepo.create({
+        project_id: req.project.id,
+        user_id: req.user.id,
+        role: 'pending'
+    })
+    logger.debug(`Project assigned : ${JSON.stringify(assigned)}`);
+    res.status(200).json({
+        success: true,
+        message: 'Project assigned successfully',
+        data: assigned
+    })
+    
+})
 
 module.exports = {
     editProfile,
-    createProject
+    createProject,
+    enterProjectUsingCode
 }
 
