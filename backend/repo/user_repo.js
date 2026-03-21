@@ -33,7 +33,16 @@ function findByEmailOrPhoneOrUsername(email, phone, username) {
 }
 
 function findById(id) {
-    return  User.findByPk(id);
+    return User.findByPk(id);
+}
+
+async function update(id, userData) {
+    const user = await User.findByPk(id);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    user.set(userData);
+    return user.save();
 }
 
 module.exports = {
@@ -42,5 +51,6 @@ module.exports = {
     findByUsername,
     findByPhone,
     findByEmailOrPhoneOrUsername,
-    findById
+    findById,
+    update
 }
