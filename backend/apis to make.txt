@@ -1,29 +1,27 @@
 DONE APIs:
 
 TODO APIs:
-1. signup (user)
-2. login (user)
-3. forget password (user)
-4. otp verification (user)
-4. reset password (user)
-4. me (user)
-5. edit profile (user)
-6. upload image (user)
-7. create project (user)
-8. get all projects (user)
-9. get project by id (tasks and members) (anyone in project)
-10. update project (owner)
-11. delete project (owner)
-12. create task (owner)
-13. get all tasks by project id (users in project)
-14. get task by id (users in project)
-15. update task (owner and assigned user)
-16. delete task (owner)
-17. assign task to user (owner)
-18. get all assigned tasks (assigned user)
-19. add member to project (owner)
-20. remove member from project (owner)
-21. get all members of project (anyone in project)(owner also get the requests)
-22. accept member request (user)
-23. reject member request (user)
-24. enter project using code (user)
+1. signup (user) [1]
+2. login (user) [2]
+3. me (user) [3]
+4. edit profile (user) [4]
+5. create project (user) [5]
+6. get all projects (user) [6]
+7. get project by id (tasks and members) (anyone in project) [7]
+8. update project (owner) [8]
+9. delete project (owner) [9]
+10. enter project using code (user) [10]
+11. accept member request (user) [11]
+12. reject member request (user) [12]
+13. get all members of project (anyone in project)(owner also get the requests) [13]
+14. remove member from project (owner) [14]
+15. create task (owner) [15]
+16. get all tasks by project id (users in project) [16]
+17. get task by id (users in project) [17]
+18. update task (owner and assigned user) [18]
+19. delete task (owner) [19]
+20. assign task to user (owner) [20]
+21. get all assigned tasks (assigned user) [21]
+22. forget password (user) [22]
+23. otp verification (user) [23]
+24. reset password (user) [24]
