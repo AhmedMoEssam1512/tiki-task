@@ -27,3 +27,4 @@ TODO APIs:
 23. otp verification (user) {user}
 24. reset password (user) {user}   
 25. delete user (user) {user}
+26. view user by id (anyone) {user}

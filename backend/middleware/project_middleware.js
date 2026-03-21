@@ -21,13 +21,13 @@ const projectExist = asyncwrapper(async (req, res, next) => {
 const isMember = asyncwrapper(async (req, res, next) => {
     const assigned = await assignedRepo.findByProjectIdAndUserId(req.project.id, req.user.id);
     if(!assigned){
-        logger.debug(`User not assigned to project : ${JSON.stringify(req.user.id)}`);
-        const error = new AppError('You are not assigned to this project', 403);
+        logger.debug(`User not assigned or pending to project : ${JSON.stringify(req.user.id)}`);
+        const error = new AppError('You are not assigned or pending to this project', 403);
         return next(error);
     }
     if(assigned.role === 'pending'){
-        logger.debug(`User not assigned to project : ${JSON.stringify(req.user.id)}`);
-        const error = new AppError('You are not assigned to this project', 403);
+        logger.debug(`User not assigned or pending to project : ${JSON.stringify(req.user.id)}`);
+        const error = new AppError('You are not assigned or pending to this project', 403);
         return next(error);
     }
     next();
@@ -36,7 +36,7 @@ const isMember = asyncwrapper(async (req, res, next) => {
 const isOwner = asyncwrapper(async (req, res, next) => {
     const assigned = await assignedRepo.findByProjectIdAndUserId(req.project.id, req.user.id);
     if(assigned.role !== 'admin'){
-        logger.debug(`User not assigned to project : ${JSON.stringify(req.user.id)}`);
+        logger.debug(`User not admin of this project : ${JSON.stringify(req.user.id)}`);
         const error = new AppError('You are not the owner of this project', 403);
         return next(error);
     }

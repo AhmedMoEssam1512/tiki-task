@@ -41,3 +41,9 @@ const Assigned = sequelize.define('Assigned', {
 });
 
 module.exports = Assigned;
+
+const Project = require('./project_model');
+Assigned.belongsTo(Project, { 
+    as: 'project',        // ← Must match your include query 'as'
+    foreignKey: 'project_id' 
+});
