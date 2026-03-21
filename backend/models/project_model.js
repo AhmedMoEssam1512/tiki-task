@@ -23,15 +23,21 @@ const Project = sequelize.define('Project', {
     },
     description: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
     start_date: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: false,
+        defaultValue: DataTypes.NOW
     },
     end_date:{
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: false,
+        defaultValue: () => {
+            const date = new Date();
+            date.setDate(date.getDate() + 14);
+            return date;
+        }
     },   
 }, {
     tableName: 'projects',

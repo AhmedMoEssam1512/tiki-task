@@ -30,7 +30,10 @@ const Assigned = sequelize.define('Assigned', {
     role: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'member'
+        defaultValue: 'pending',
+        validate: {
+            isIn: [['pending', 'member', 'admin']]
+        }
     }
 }, {
     tableName: 'assigned',

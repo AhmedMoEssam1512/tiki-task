@@ -2,11 +2,11 @@ DONE APIs:
 1. signup (user) {login}
 2. login (user)  {login}
 3. me (user) {login}
-
-
-TODO APIs:
 4. edit profile (user) {user}
 5. create project (user) {user}
+
+TODO APIs:
+
 6. enter project using code (user) {user}
 7. get all projects (user) {project}
 8. get project by id (tasks and members) (anyone in project) {project}

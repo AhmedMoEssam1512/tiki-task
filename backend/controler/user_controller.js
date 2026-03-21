@@ -1,5 +1,6 @@
 const {asyncwrapper} = require('../utils/asyncwrapper')
 const userRepo = require('../repo/user_repo')
+const projectRepo = require('../repo/project_repo')
 const logger = require('../config/logger')
 
 const editProfile = asyncwrapper(async (req, res, next) => {
@@ -25,11 +26,33 @@ const editProfile = asyncwrapper(async (req, res, next) => {
     })
 })
 
-//const createProject = asyncwrapper(async (req, res, next) => {})
+const createProject = asyncwrapper(async (req, res) => {
+    req.body.owner_id = req.user.id;
+    let {start_date, end_date} = req.body;
+    start_date = start_date ? new Date(start_date) : new Date();
+    end_date = end_date ? new Date(end_date) : new Date(start_date.getTime() + 14 * 24 * 60 * 60 * 1000);
+    if(start_date > end_date){
+        logger.debug(`Invalid date : ${JSON.stringify(req.body)}`);
+        return res.status(400).json({
+            status: 'error',
+            message: 'Invalid dates'
+        });
+    }
+    req.body.start_date = start_date;
+    req.body.end_date = end_date;
+    const project = await projectRepo.create(req.body);
+    logger.debug(`Project created : ${JSON.stringify(project)}`);
+    res.status(200).json({
+        success: true,
+        message: 'Project created successfully',
+        data: project
+    })
+})
 
 //const enterProjectUsingCode = asyncwrapper(async (req, res, next) => {})
 
 module.exports = {
-    editProfile
+    editProfile,
+    createProject
 }
 
