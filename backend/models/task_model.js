@@ -1,0 +1,53 @@
+const sequelize = require('../../config/database');
+const { Sequelize, DataTypes } = require('sequelize');
+
+const Task = sequelize.define('Task', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    description: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'pending'
+    },
+    due_date: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    project_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'projects',
+            key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    },
+    assigned_to: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'users',
+            key: 'id'
+        },
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    },
+    
+}, {
+    tableName: 'tasks',
+    timestamps: true,
+});
+
+module.exports = Task;
