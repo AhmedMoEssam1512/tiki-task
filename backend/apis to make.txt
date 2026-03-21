@@ -9,14 +9,14 @@ DONE APIs:
 8. get project by id (tasks and members) (anyone in project) {project}
 9. update project (owner) {project}
 10. delete project (owner) {project}
+11. accept member request (owner) {project}
+12. remove member (owner) {project}
+13. get all members of project (anyone in project)(owner also get the requests) {project}
 
 
 TODO APIs:
 
-11. accept member request (user) {project}
-12. reject member request (user) {project}
-13. get all members of project (anyone in project)(owner also get the requests) {project}
-14. remove member from project (owner) {project}
+14. exit from project (member) {project}
 15. create task (owner) {task}
 16. get all tasks by project id (users in project) {task}
 17. get task by id (users in project) {task}

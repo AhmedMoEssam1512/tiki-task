@@ -1,8 +1,13 @@
 const Assigned = require('../models/assigned_model');
 const Project = require('../models/project_model');
+const User = require('../models/user_model');
 
 function create(assignedData) {
     return Assigned.create(assignedData);
+}
+
+function update(assigned, data) {
+    return assigned.update(data);
 }
 
 function findByProjectIdAndUserId(projectId, userId) {
@@ -82,8 +87,49 @@ async function findProjectsGroupedByStatus(userId, role) {
     return Object.values(statusGroups);
 }
 
+async function findAllByProjectId(projectId) {
+    return Assigned.findAll({
+        where: {
+            project_id: projectId
+        },
+        include: [
+            {
+                model: User,
+                as: 'user',
+                attributes: ['id', 'name', 'email']
+            }
+        ]
+    });
+}
+
+async function findByProjectId(projectId) {
+    return Assigned.findAll({
+        where: {
+            project_id: projectId,
+            role: 'member'
+        },
+        attributes: ['id', 'project_id', 'user_id', 'role'],
+        include: [
+            {
+                model: User,
+                as: 'user',
+                attributes: ['id', 'name', 'email']
+
+            }
+        ]
+    });
+}
+
+function deleteAssigned(assigned){
+    return assigned.destroy();
+}
+
 module.exports = {
     create,
     findByProjectIdAndUserId,
-    findProjectsGroupedByStatus
+    findProjectsGroupedByStatus,
+    findAllByProjectId,
+    findByProjectId,
+    update,
+    deleteAssigned
 }

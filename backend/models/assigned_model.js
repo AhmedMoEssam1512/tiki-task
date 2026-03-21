@@ -47,3 +47,9 @@ Assigned.belongsTo(Project, {
     as: 'project',        // ← Must match your include query 'as'
     foreignKey: 'project_id' 
 });
+
+const User = require('./user_model');
+Assigned.belongsTo(User, { 
+    as: 'user',        // ← Must match your include query 'as'
+    foreignKey: 'user_id' 
+});

@@ -31,6 +31,7 @@ const isMember = asyncwrapper(async (req, res, next) => {
         const error = new AppError('You are not assigned or pending to this project', 403);
         return next(error);
     }
+    req.assigned = assigned;
     next();
 })
 
@@ -41,6 +42,7 @@ const isOwner = asyncwrapper(async (req, res, next) => {
         const error = new AppError('You are not the owner of this project', 403);
         return next(error);
     }
+    req.assigned = assigned;
     next();
 })
 
@@ -54,9 +56,23 @@ const alreadyAssigned = asyncwrapper(async (req, res, next) => {
     next();
 })
 
+const isPending = asyncwrapper(async (req, res, next) => {
+    const assigned = await assignedRepo.findByProjectIdAndUserId(req.project.id, req.params.userId);
+    if(assigned.role !== 'pending'){
+        logger.debug(`User not pending of this project : ${JSON.stringify(req.params.userId)}`);
+        const error = new AppError('this user is not pending for this project', 403);
+        return next(error);
+    }
+    req.assigned = assigned;
+    next();
+})
+
+
+
 module.exports = {
     projectExist,
     isMember,
     isOwner,
-    alreadyAssigned
+    alreadyAssigned,
+    isPending
 }

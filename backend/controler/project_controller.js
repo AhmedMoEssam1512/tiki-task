@@ -25,11 +25,19 @@ const getAllProjects = asyncwrapper(async (req, res) => {
 
 const getProjectById = asyncwrapper(async (req, res) => {
     const project = req.project;
+    const owner = await userRepo.findById(project.owner_id);
+    const ownerData = {
+        name: owner.name,
+        email: owner.email
+    }
     logger.info(`Project fetched`);
     res.status(200).json({
         status: 'success',
         message: 'Project fetched successfully',
-        data: project
+        data: {
+            project,
+            owner: ownerData
+        }
     });
 })
 
@@ -83,11 +91,53 @@ const deleteProject = asyncwrapper(async (req, res) => {
     });
 })
 
+const getAllMembers = asyncwrapper(async (req, res) => {
+    const assigned = req.assigned;
+    const members = assigned.role === 'admin' ?
+        await assignedRepo.findAllByProjectId(req.project.id) :
+        await assignedRepo.findByProjectId(req.project.id);
+    logger.info(`Members fetched`);
+    res.status(200).json({
+        status: 'success',
+        message: 'Members fetched successfully',
+        data: members
+    });
+})
 
+const acceptRequest = asyncwrapper(async (req, res) => {
+    const assigned = req.assigned;
+    const updatedAssigned = await assignedRepo.update(assigned, {role: 'member'});
+    logger.info(`Request accepted`);
+    res.status(200).json({
+        status: 'success',
+        message: 'Request accepted successfully',
+        data: updatedAssigned
+    });
+})
+
+const removeMember = asyncwrapper(async (req, res) => {
+    const assigned = await assignedRepo.findByProjectIdAndUserId(req.project.id, req.params.userId);
+    if(!assigned){
+        logger.debug(`User not in project : ${JSON.stringify(req.params.userId)}`);
+        return res.status(404).json({
+            status: 'error',
+            message: 'User not in this project'
+        });
+    }
+    await assignedRepo.deleteAssigned(assigned);
+    logger.info(`Member removed`);
+    res.status(200).json({
+        status: 'success',
+        message: 'Member removed successfully'
+    });
+})
 
 module.exports = {
     getAllProjects,
     getProjectById,
     updateProject,
-    deleteProject
+    deleteProject,
+    getAllMembers,
+    acceptRequest,
+    removeMember
 }
