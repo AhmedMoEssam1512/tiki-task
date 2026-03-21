@@ -4,7 +4,6 @@ const cors = require("cors");
 const path = require('path');
 const logger = require("./config/logger");
 const sequelize = require("./config/database");
-const httpStatusCode = require("./utils/httpStatusCode.js");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -31,7 +30,7 @@ sequelize.sync({ alter: true })
 // ✅ Global error handler
 app.use((error, req, res, next) => {
     if (error.name === "ValidationError") {
-        error.statusMessage = httpStatusCode.Error;
+        error.statusMessage = "Error";
         error.statusCode = 400;
         error.message = "Invalid email format";
     }
@@ -45,7 +44,7 @@ app.use((error, req, res, next) => {
     }
 
     res.status(error.statusCode || 400).json({
-        status: error.statusMessage || httpStatusCode.Error,
+        status: error.statusMessage || "Error",
         data: { message: error.message }
     });
 });
