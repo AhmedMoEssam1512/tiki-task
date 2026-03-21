@@ -6,20 +6,20 @@ const create = async (userData) => {
     return await User.create(userData);
 }
 
-const findByEmail = async (email) => {
-    return await User.findOne({ where: { email } });
+function findByEmail(email) {
+    return  User.findOne({ where: { email } });
 }
 
-const findByUsername = async (username) => {
-    return await User.findOne({ where: { username } });
+function findByUsername(username) {
+    return  User.findOne({ where: { username } });
 }
 
-const findByPhone = async (phone) => {
-    return await User.findOne({ where: { phone } });
+function findByPhone(phone)  {
+    return  User.findOne({ where: { phone } });
 }
 
-const findByEmailOrPhoneOrUsername = async (email, phone, username) => {
-    const found = await User.findOne({
+function findByEmailOrPhoneOrUsername(email, phone, username) {
+    const found =  User.findOne({
         where: {
             [Op.or]: [
                 { email },
@@ -32,10 +32,15 @@ const findByEmailOrPhoneOrUsername = async (email, phone, username) => {
     return found;
 }
 
+function findById(id) {
+    return  User.findByPk(id);
+}
+
 module.exports = {
     create,
     findByEmail,
     findByUsername,
     findByPhone,
-    findByEmailOrPhoneOrUsername
+    findByEmailOrPhoneOrUsername,
+    findById
 }

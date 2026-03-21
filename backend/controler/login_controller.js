@@ -77,8 +77,37 @@ const login = asyncwrapper(async (req, res) => {
     });
 })
 
+const me = asyncwrapper(async (req, res) => {
+    logger.debug(`Getting user with data: ${JSON.stringify(req.user)}`);
+    const user = await userRepo.findById(req.user.id);
+    if(!user){
+        logger.debug(`User not found : ${JSON.stringify({ "id": req.user.id })}`);
+        return res.status(404).json({
+            status : "error",
+            message: 'User not found',
+            data : {
+                message: 'User not found'
+            }
+        });
+    }
+    logger.debug(`User found : ${user.id}`);
+    res.status(200).json({
+        status : "success",
+        message: 'User found successfully',
+        data : {
+            id : user.id,
+            name : user.name,
+            email : user.email,
+            username : user.username,
+            phone : user.phone,
+            bio : user.bio,
+            profile_picture : user.profile_picture,
+        }
+    });
+})
 
 module.exports = {
     signup,
-    login
+    login,
+    me
 }
