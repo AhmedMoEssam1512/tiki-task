@@ -65,9 +65,37 @@ const enterProjectUsingCode = asyncwrapper(async (req, res) => {
     
 })
 
+const deleteUser = asyncwrapper(async (req, res) => {
+    await userRepo.deleteUser(req.user.id);
+    logger.info(`User deleted : ${req.user.id}`);
+    res.status(200).json({
+        success: true,
+        message: 'User deleted successfully'
+    })
+})
+
+const viewProfile = asyncwrapper(async (req, res) => {
+    const user = await userRepo.viewProfile(req.params.id);
+    if (!user) {
+        logger.debug(`User not found : ${JSON.stringify(user)}`);
+        return res.status(404).json({
+            success: false,
+            message: 'User not found'
+        });
+    }
+    logger.debug(`User found : ${JSON.stringify(user)}`);
+    res.status(200).json({
+        success: true,
+        message: 'User found successfully',
+        data: user
+    })
+})
+
 module.exports = {
     editProfile,
     createProject,
-    enterProjectUsingCode
+    enterProjectUsingCode,
+    deleteUser,
+    viewProfile
 }
 

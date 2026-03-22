@@ -15,4 +15,10 @@ router.route('/enter_project/:id')
     .post(protect, user_middleware.userFound, project_middleware.projectExist,
         project_middleware.alreadyAssigned, userController.enterProjectUsingCode);
 
+router.route('/delete_user')
+    .delete(protect, userController.deleteUser);
+
+router.route('/view_profile/:id')
+    .get(userController.viewProfile);
+
 module.exports = router;
