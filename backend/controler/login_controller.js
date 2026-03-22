@@ -5,6 +5,10 @@ const logger = require('../config/logger')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
+// Import services
+const otpService = require('../services/otpService');
+const emailService = require('../services/emailService');
+
 const signup = asyncwrapper(async (req, res) => {
     logger.debug(`Creating user with data: ${JSON.stringify(req.data)}`);
     const user = await userRepo.create(req.data);
@@ -107,8 +111,155 @@ const me = asyncwrapper(async (req, res) => {
     });
 })
 
+
+
+/**
+ * STEP 1: Request password reset (send OTP via email)
+ */
+const forgetPassword = asyncwrapper(async (req, res) => {
+    logger.debug(`Forget password request: ${JSON.stringify(req.params)}`);
+    
+    const { email } = req.params;
+    
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({
+            status: 'error',
+            message: 'Valid email is required'
+        });
+    }
+    
+    const user = await userRepo.findByEmail(email);
+    if (!user) {
+        logger.debug(`Password reset requested for non-existent email: ${email}`);
+        return res.status(200).json({
+            status: 'success',
+            message: 'If an account exists with this email, you will receive a password reset OTP',
+            data: { message: 'Check your email' }
+        });
+    }
+    
+    if (otpService.hasActiveOTP(user.id)) {
+        return res.status(429).json({
+            status: 'error',
+            message: 'Please wait before requesting another reset code',
+            data: { retryAfter: '15 minutes' }
+        });
+    }
+    
+    logger.info(`Password reset initiated for user: ${user.username} (ID: ${user.id})`);
+    
+    try {
+        const otp = otpService.generateOTP();
+        otpService.storeOTP(user.id, otp); 
+        await emailService.sendPasswordResetEmail(user.email, user.username, otp);
+        
+        res.status(200).json({
+            status: 'success',
+            message: 'If an account exists with this email, you will receive a password reset OTP',
+            data: { message: 'Check your email', email: user.email }
+        });
+        
+    } catch (error) {
+        logger.error(`Forget password failed for ${email}: ${error.message}`);
+        otpService.clearOTP(user.id);
+        
+        res.status(500).json({
+            status: 'error',
+            message: 'Failed to process password reset request. Please try again later.'
+        });
+    }
+});
+
+/**
+ * STEP 2: Verify OTP code (mark as confirmed)
+ */
+const verifyOTP = asyncwrapper(async (req, res) => {
+    const { email, otp } = req.body;
+    
+    if (!email || !otp) {
+        return res.status(400).json({
+            status: 'error',
+            message: 'Email and OTP are required'
+        });
+    }
+    
+    const user = await userRepo.findByEmail(email);
+    if (!user) {
+        return res.status(404).json({
+            status: 'error',
+            message: 'User not found'
+        });
+    }
+    
+    const isValid = otpService.verifyOTP(user.id, otp);
+    if (!isValid) {
+        logger.debug(`Invalid/expired OTP attempt for user ${user.id}`);
+        return res.status(400).json({
+            status: 'error',
+            message: 'Invalid or expired OTP. Please request a new one.'
+        });
+    }
+    
+    otpService.confirmOTP(user.id);
+    logger.info(`OTP confirmed for user: ${user.username}`);
+    
+    res.status(200).json({
+        status: 'success',
+        message: 'OTP verified. You can now reset your password.',
+        data: { email: user.email }
+    });
+});
+
+/**
+ * STEP 3: Reset password (only if OTP is confirmed)
+ */
+const resetPassword = asyncwrapper(async (req, res) => {
+    const { email, newPassword } = req.body;
+    
+    if (!email || !newPassword) {
+        return res.status(400).json({
+            status: 'error',
+            message: 'Email and new password are required'
+        });
+    }
+    
+    const user = await userRepo.findByEmail(email);
+    if (!user) {
+        return res.status(404).json({
+            status: 'error',
+            message: 'User not found'
+        });
+    }
+    
+    const completed = otpService.completeReset(user.id);
+    if (!completed) {
+        logger.debug(`Password reset attempted without confirmed OTP for user ${user.id}`);
+        return res.status(400).json({
+            status: 'error',
+            message: 'OTP not verified. Please verify your OTP first.'
+        });
+    }
+    const encryptedPassword = await bcrypt.hash(newPassword, 10);
+    
+    user.password = encryptedPassword; 
+    await user.save();
+    
+    logger.info(`Password reset successful for user: ${user.username}`);
+    
+    res.status(200).json({
+        status: 'success',
+        message: 'Password reset successfully. You can now login with your new password.',
+        data: { email: user.email }
+    });
+});
+
+
+
 module.exports = {
     signup,
     login,
-    me
+    me,
+    forgetPassword,
+    verifyOTP,
+    resetPassword
 }

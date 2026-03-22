@@ -15,4 +15,13 @@ router.route('/')
 router.route('/me')
         .get(authMiddleware.protect,loginController.me);
 
+router.route('/forget_password/:email')
+        .post(loginController.forgetPassword);
+
+router.route('/otp')
+        .patch(loginController.verifyOTP);
+
+router.route('/reset_password')
+        .patch(loginController.resetPassword);
+
 module.exports = router;
