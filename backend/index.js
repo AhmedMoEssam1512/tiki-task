@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 4000;
 const loginRoutes = require('./routes/login_routes');
 const userRoutes = require('./routes/user_routes');
 const projectRoutes = require('./routes/project_route');
+const taskRoutes = require('./routes/task_routes');
 
 app.use(cors());
 app.use(express.json());
@@ -34,6 +35,7 @@ sequelize.sync({ alter: true })
 app.use('/api/v1/login', loginRoutes);
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/project', projectRoutes);
+app.use('/api/v1/task', taskRoutes);
 
 // ✅ Global error handler
 app.use((error, req, res, next) => {
