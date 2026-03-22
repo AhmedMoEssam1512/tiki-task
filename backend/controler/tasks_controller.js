@@ -23,7 +23,33 @@ const getAllTasksByProjectId = asyncwrapper(async (req, res) => {
     });
 });
 
+const getTaskById = asyncwrapper(async (req, res) => {
+    const task = req.task;
+    logger.info("Task fetched successfully");
+    res.status(200).json({
+        success:true,
+        message:"Task fetched successfully",
+        data:task
+    });
+});
+
+const getAllTasksByUser = asyncwrapper(async (req, res) => {
+    const inProgressTasks = await taskRepo.getAllTasksByUser(req.user.id,"in-progress");
+    const completedTasks = await taskRepo.getAllTasksByUser(req.user.id,"completed");
+    logger.info("Tasks fetched successfully");
+    res.status(200).json({
+        success:true,
+        message:"Tasks fetched successfully",
+        data:{
+            inProgressTasks,
+            completedTasks
+        }
+    });
+});
+
 module.exports = {
     createTask,
-    getAllTasksByProjectId
+    getAllTasksByProjectId,
+    getTaskById,
+    getAllTasksByUser
 };

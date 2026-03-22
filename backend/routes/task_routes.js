@@ -11,4 +11,11 @@ router.route("/create_task")
 router.route("/get_all_tasks/:id")
     .get(protect,projectMiddleware.projectExist,projectMiddleware.isMember,taskController.getAllTasksByProjectId);
 
+router.route("/get_my_tasks")
+    .get(protect,taskController.getAllTasksByUser);
+
+router.route("/:id")
+    .get(protect,taskMiddleware.taskExist,taskMiddleware.canViewTask,taskController.getTaskById)
+
+
 module.exports = router;

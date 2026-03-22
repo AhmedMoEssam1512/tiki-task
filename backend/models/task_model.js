@@ -57,3 +57,9 @@ Task.belongsTo(User, {
     as: 'user',
     foreignKey: 'assigned_to'
 });
+
+const Project = require('./project_model');
+Task.belongsTo(Project, {
+    as: 'project',
+    foreignKey: 'project_id'
+});
