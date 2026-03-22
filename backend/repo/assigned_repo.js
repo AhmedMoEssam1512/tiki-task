@@ -106,7 +106,7 @@ async function findByProjectId(projectId) {
     return Assigned.findAll({
         where: {
             project_id: projectId,
-            role: 'member'
+            role: ['member', 'admin']
         },
         attributes: ['id', 'project_id', 'user_id', 'role'],
         include: [
