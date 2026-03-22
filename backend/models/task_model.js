@@ -51,3 +51,9 @@ const Task = sequelize.define('Task', {
 });
 
 module.exports = Task;
+
+const User = require('./user_model');
+Task.belongsTo(User, {
+    as: 'user',
+    foreignKey: 'assigned_to'
+});

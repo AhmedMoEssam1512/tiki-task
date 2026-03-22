@@ -13,6 +13,17 @@ const createTask = asyncwrapper(async (req, res) => {
     });
 });
 
+const getAllTasksByProjectId = asyncwrapper(async (req, res) => {
+    const tasks = await taskRepo.getAllTasksByProjectId(req.project.id);
+    logger.info("Tasks fetched successfully");
+    res.status(200).json({
+        success:true,
+        message:"Tasks fetched successfully",
+        data:tasks
+    });
+});
+
 module.exports = {
-    createTask
+    createTask,
+    getAllTasksByProjectId
 };
