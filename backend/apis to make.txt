@@ -22,9 +22,10 @@ TODO APIs:
 18. update task (owner and assigned user) {task}
 19. delete task (owner) {task}
 20. assign task to user (owner) {task}
-21. get all assigned tasks (assigned user) {user}
-22. forget password (user) {user}
-23. otp verification (user) {user}
-24. reset password (user) {user}   
-25. delete user (user) {user}
-26. view user by id (anyone) {user}
+21. mark as done (task maker) {task}
+22. get all assigned tasks (assigned user) {user}
+23. forget password (user) {user}
+24. otp verification (user) {user}
+25. reset password (user) {user}   
+26. delete user (user) {user}
+27. view user by username (anyone) {user}
