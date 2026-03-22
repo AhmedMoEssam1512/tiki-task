@@ -61,6 +61,7 @@ const login = asyncwrapper(async (req, res) => {
         expiresIn: process.env.JWT_EXPIRATION
     }
     )
+    logger.info(`User logged in successfully: ${user.username}`);
     res.status(201).json({
         status : "success",
         message: 'User logged in successfully',
@@ -90,7 +91,7 @@ const me = asyncwrapper(async (req, res) => {
             }
         });
     }
-    logger.debug(`User found : ${user.id}`);
+    logger.info(`User found : ${user.username}`);
     res.status(200).json({
         status : "success",
         message: 'User found successfully',
