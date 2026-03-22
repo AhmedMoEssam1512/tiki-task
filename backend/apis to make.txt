@@ -21,11 +21,11 @@ DONE APIs:
 20. delete task (owner) {task}
 21. assign task to user (owner) {task}
 22. mark as done (task maker) {task}
+23. forget password (user) {login}
+24. otp verification (user) {login}
+25. reset password (user) {login}  
 
 TODO APIs:
-
-23. forget password (user) {user}
-24. otp verification (user) {user}
-25. reset password (user) {user}   
+ 
 26. delete user (user) {user}
 27. view user by username (anyone) {user}
