@@ -3,6 +3,7 @@ const logger = require("../config/logger");
 const taskRepo= require ("../repo/task_repo")
 const projectRepo = require("../repo/project_repo");
 const assignedRepo = require("../repo/assigned_repo");
+const userRepo = require("../repo/user_repo");
 const AppError = require("../utils/AppError");
 
 const validateCreateTask = asyncwrapper(async (req, res, next) => {
@@ -23,6 +24,13 @@ const validateCreateTask = asyncwrapper(async (req, res, next) => {
         const error = new AppError("You are not authorized to create task in this project", 403);
         return next(error);
     }
+    logger.debug("task can be created");
+    next();
+});
+
+const validateTime = asyncwrapper(async (req, res, next) => {
+    const project = await projectRepo.findById(req.task.project_id);
+    const { due_date } = req.body||req.task;
     const deadline = new Date(due_date);
     if(deadline < Date.now()){
         logger.debug("Due date is in the past");
@@ -39,7 +47,8 @@ const validateCreateTask = asyncwrapper(async (req, res, next) => {
         const error = new AppError("Due date is less than project start date", 400);
         return next(error);
     }
-    logger.debug("task can be created");
+    logger.debug("time is valid");
+    req.body.due_date = deadline;
     next();
 });
 
@@ -50,6 +59,7 @@ const taskExist = asyncwrapper(async (req, res, next) => {
         const error = new AppError("Task not found", 404);
         return next(error);
     }
+    logger.debug(`Task found ${task.title}`);
     req.task = task;
     next();
 });
@@ -61,6 +71,7 @@ const canViewTask = asyncwrapper(async (req, res, next) => {
         const error = new AppError("You are not authorized to view this task", 403);
         return next(error);
     }
+    logger.debug(`You are authorized to view this task ${found.role}`);
     req.assigned = found;
     next();
 });
@@ -71,6 +82,7 @@ const canEditTask = asyncwrapper(async (req, res, next) => {
         const error = new AppError("You are not authorized to edit this task", 403);
         return next(error);
     }
+    logger.debug(`You are authorized to edit this task ${req.assigned.role}`);
     next();
 });
 
@@ -80,6 +92,25 @@ const ownerOfTask = asyncwrapper(async (req, res, next) => {
         const error = new AppError("You are not the owner of this task", 403);
         return next(error);
     }
+    logger.debug(`You are the owner of this task ${req.assigned.role}`);
+    next();
+});
+
+const validateAssignedUser = asyncwrapper(async (req, res, next) => {
+    const user = await userRepo.findById(req.params.user_id);
+    if (!user) {
+        logger.debug("User not found");
+        const error = new AppError("User not found", 404);
+        return next(error);
+    }
+    const found = await assignedRepo.findByProjectIdAndUserId(req.task.project_id, req.params.user_id);
+    if (!found || found.role === "pending") {
+        logger.debug("can't assign task to this user");
+        const error = new AppError("can't assign task to this user", 403);
+        return next(error);
+    }
+    logger.debug(`User found ${user.name}`);
+    req.assigned_user = user;
     next();
 });
 
@@ -88,5 +119,7 @@ module.exports = {
     taskExist,
     canViewTask,
     canEditTask,
-    ownerOfTask
+    ownerOfTask,
+    validateTime,
+    validateAssignedUser
 };

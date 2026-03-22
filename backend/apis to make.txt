@@ -13,17 +13,17 @@ DONE APIs:
 12. remove member (owner) {project}
 13. get all members of project (anyone in project)(owner also get the requests) {project}
 14. exit from project (member) {project}
-
-TODO APIs:
-
 15. create task (owner) {task}
 16. get all tasks by project id (users in project) {task}
 17. get task by id (users in project) {task}
-18. update task (owner and assigned user) {task}
-19. delete task (owner) {task}
-20. assign task to user (owner) {task}
-21. mark as done (task maker) {task}
-22. get all assigned tasks (assigned user) {user}
+18. get all assigned tasks (assigned user) {user}
+19. update task (owner) {task}
+20. delete task (owner) {task}
+21. assign task to user (owner) {task}
+22. mark as done (task maker) {task}
+
+TODO APIs:
+
 23. forget password (user) {user}
 24. otp verification (user) {user}
 25. reset password (user) {user}   

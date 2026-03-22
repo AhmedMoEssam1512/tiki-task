@@ -56,9 +56,20 @@ function getAllTasksByUser(userId,status) {
     });
 }
 
+async function updateTask(taskId, task) {
+    await Task.update(task, {where: {id: taskId}});
+    return findById(taskId);
+}
+
+function deleteTask(taskId) {
+    return Task.destroy({where: {id: taskId}});
+}
+
 module.exports = {
     createTask,
     getAllTasksByProjectId,
     findById,
-    getAllTasksByUser
+    getAllTasksByUser,
+    updateTask,
+    deleteTask
 };
