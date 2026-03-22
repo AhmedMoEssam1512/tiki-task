@@ -24,8 +24,7 @@ DONE APIs:
 23. forget password (user) {login}
 24. otp verification (user) {login}
 25. reset password (user) {login}  
-
-TODO APIs:
- 
 26. delete user (user) {user}
 27. view user by username (anyone) {user}
+ 
+
