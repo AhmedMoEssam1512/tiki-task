@@ -1,3 +1,30 @@
 DONE APIs:
+1. signup (user) {login}
+2. login (user)  {login}
+3. me (user) {login}
+4. edit profile (user) {user}
+5. create project (user) {user}
+6. enter project using code (user) {user}
+7. get all projects (user) {project}
+8. get project by id (tasks and members) (anyone in project) {project}
+9. update project (owner) {project}
+10. delete project (owner) {project}
+11. accept member request (owner) {project}
+12. remove member (owner) {project}
+13. get all members of project (anyone in project)(owner also get the requests) {project}
+14. exit from project (member) {project}
+15. create task (owner) {task}
+16. get all tasks by project id (users in project) {task}
+17. get task by id (users in project) {task}
+18. get all assigned tasks (assigned user) {user}
+19. update task (owner) {task}
+20. delete task (owner) {task}
+21. assign task to user (owner) {task}
+22. mark as done (task maker) {task}
+23. forget password (user) {login}
+24. otp verification (user) {login}
+25. reset password (user) {login}  
+26. delete user (user) {user}
+27. view user by username (anyone) {user}
+ 
 
-TODO APIs:
