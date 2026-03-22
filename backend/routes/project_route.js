@@ -9,7 +9,8 @@ router.route('/get_all_projects')
     .get(protect, projectController.getAllProjects);
 
 router.route('/members/:id')
-    .get(protect, projectMiddleware.projectExist, projectMiddleware.isMember, projectController.getAllMembers);
+    .get(protect, projectMiddleware.projectExist, projectMiddleware.isMember, projectController.getAllMembers)
+    .delete(protect, projectMiddleware.projectExist, projectMiddleware.isMember, projectController.exitProject);
 
 router.route('/request/:id/:userId')
     .patch(protect, projectMiddleware.projectExist, projectMiddleware.isOwner, projectMiddleware.isPending, projectController.acceptRequest)

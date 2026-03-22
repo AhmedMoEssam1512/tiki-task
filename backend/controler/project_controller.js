@@ -132,6 +132,23 @@ const removeMember = asyncwrapper(async (req, res) => {
     });
 })
 
+const exitProject = asyncwrapper(async (req, res) => {
+    const assigned = req.assigned;
+    if(assigned.role === 'admin'){
+        logger.debug(`Admin cannot exit project`);
+        return res.status(403).json({
+            status: 'error',
+            message: 'Admin cannot exit project'
+        });
+    }
+    await assignedRepo.deleteAssigned(assigned);
+    logger.info(`Member exited project`);
+    res.status(200).json({
+        status: 'success',
+        message: 'Member exited project successfully'
+    });
+}) 
+
 module.exports = {
     getAllProjects,
     getProjectById,
@@ -139,5 +156,6 @@ module.exports = {
     deleteProject,
     getAllMembers,
     acceptRequest,
-    removeMember
+    removeMember,
+    exitProject
 }
