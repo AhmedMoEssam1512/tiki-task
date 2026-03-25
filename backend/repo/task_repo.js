@@ -31,6 +31,11 @@ function findById(taskId) {
                 model: User,
                 as: 'user',
                 attributes: ['id', 'name', 'email']
+            },
+            {
+                model: Project,
+                as: 'project',
+                attributes: ['id', 'name']
             }
         ]
     });
