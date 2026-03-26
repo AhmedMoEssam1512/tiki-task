@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import API from '../../services/api';
 import { toast } from 'react-toastify';
+import { LogOut } from 'lucide-react';
 import './Profile.css';
 import defaultProfilePic from '../../assets/images/default_profile_pic.jpg';
 
@@ -76,7 +77,7 @@ const MyProfile = () => {
         </div>
 
         <button onClick={handleLogout} className="logout-button">
-          🚪 Logout
+          <LogOut size={20} /> Logout
         </button>
       </div>
 
