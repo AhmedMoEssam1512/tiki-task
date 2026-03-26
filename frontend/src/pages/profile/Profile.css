@@ -1,0 +1,224 @@
+/* src/pages/profile/Profile.css */
+.profile-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* National ID Card */
+.national-id-card {
+  background: #c8e7f9;
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.id-card-header {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.id-photo {
+  width: 200px;
+  height: 200px;
+  border: 3px solid #1e3a8a;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-placeholder {
+  font-size: 8rem;
+  color: #1e3a8a;
+}
+
+.id-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.id-info {
+  flex: 1;
+}
+
+.id-name {
+  font-size: 2rem;
+  color: #1e3a8a;
+  margin-bottom: 15px;
+}
+
+.id-info p {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #374151;
+}
+
+.id-info strong {
+  color: #1f2937;
+}
+
+.id-bio {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  min-height: 120px;
+  margin-bottom: 25px;
+}
+
+.id-bio p {
+  color: #4b5563;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.logout-button {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logout-button:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* Profile Cards */
+.profile-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.profile-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  background: #1e3a8a;
+  color: white;
+  padding: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 0;
+}
+
+.card-content {
+  padding: 25px;
+}
+
+.task-item,
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.task-item:hover,
+.project-item:hover {
+  background: #f3f4f6;
+}
+
+.task-info,
+.project-info {
+  flex: 1;
+}
+
+.task-name,
+.project-name {
+  display: block;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 5px;
+}
+
+.task-desc,
+.project-desc {
+  display: block;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.task-checkbox {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.project-arrow {
+  font-size: 2rem;
+  color: #1e3a8a;
+  line-height: 1;
+}
+
+.view-more {
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-top: 15px;
+  transition: color 0.3s;
+}
+
+.view-more:hover {
+  color: #1e3a8a;
+  text-decoration: underline;
+}
+
+.no-items {
+  text-align: center;
+  color: #9ca3af;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .id-card-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Add to src/pages/profile/Profile.css */
+
+/* Other user profile - slightly different styling */
+.other-user-card {
+  background: #d1e8f5; /* Slightly different shade */
+}
+
+.other-user-card .id-info p {
+  color: #4b5563;
+}
+
+/* Hide sensitive info for other users if needed */
+.other-user-card .sensitive-info {
+  opacity: 0.7;
+}
