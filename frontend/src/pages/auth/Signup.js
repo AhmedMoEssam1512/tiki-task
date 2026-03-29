@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
+import { Eye, EyeOff } from 'lucide-react';
 import logo from '../../assets/images/TIKI_TASK_logo.png';
 import './Auth.css';
 
@@ -39,14 +40,14 @@ const Signup = () => {
     try {
       const { name, username, email, phone, password, bio, profile_picture } = formData;
       await register({ name, username, email, phone, password, bio, profile_picture });
-      
+
       // Auto-login after registration (if backend returns token)
       // Otherwise, redirect to login
       toast.success('Registration successful!');
       navigate('/login');
     } catch (error) {
-      const message = error.response?.data?.data?.message || 
-                     error.response?.data?.message || 
+      const message = error.response?.data?.data?.message ||
+                     error.response?.data?.message ||
                      'Registration failed';
       toast.error(message);
     } finally {
@@ -55,15 +56,15 @@ const Signup = () => {
   };
 
   return (
-    <div className="auth-page register-page">
-      <div className="auth-container">
-        <img src={logo} alt="TIKI TASK" className="auth-logo" />
-        <h2 className="auth-title">Register New User</h2>
-        
-        <form onSubmit={handleSubmit} className="auth-form register-form">
+    <div className="auth-page signup-page-centered">
+      <div className="signup-container">
+        <img src={logo} alt="TIKI TASK" className="signup-logo" />
+        <h2 className="signup-title">Register New User</h2>
+
+        <form onSubmit={handleSubmit} className="signup-form">
           <div className="form-row">
             <div className="form-group">
-              <label>Full name *</label>
+              <label>Full name</label>
               <input
                 type="text"
                 name="name"
@@ -75,7 +76,7 @@ const Signup = () => {
             </div>
 
             <div className="form-group">
-              <label>Username *</label>
+              <label>Username</label>
               <input
                 type="text"
                 name="username"
@@ -89,7 +90,7 @@ const Signup = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label>Email *</label>
+              <label>Email</label>
               <input
                 type="email"
                 name="email"
@@ -101,13 +102,13 @@ const Signup = () => {
             </div>
 
             <div className="form-group">
-              <label>Phone Number *</label>
+              <label>Phone Number</label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="01012345678"
+                placeholder="01234567890"
                 required
               />
             </div>
@@ -115,7 +116,7 @@ const Signup = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label>Password *</label>
+              <label>Password</label>
               <div className="password-input">
                 <input
                   type={showPassword.pass ? 'text' : 'password'}
@@ -130,13 +131,13 @@ const Signup = () => {
                   className="toggle-password"
                   onClick={() => setShowPassword({ ...showPassword, pass: !showPassword.pass })}
                 >
-                  {showPassword.pass ? '👁️' : '👁️‍🗨️'}
+                  {showPassword.pass ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
             <div className="form-group">
-              <label>Confirm Password *</label>
+              <label>Confirm Password</label>
               <div className="password-input">
                 <input
                   type={showPassword.confirm ? 'text' : 'password'}
@@ -151,38 +152,21 @@ const Signup = () => {
                   className="toggle-password"
                   onClick={() => setShowPassword({ ...showPassword, confirm: !showPassword.confirm })}
                 >
-                  {showPassword.confirm ? '👁️' : '👁️‍🗨️'}
+                  {showPassword.confirm ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label>Bio (Optional)</label>
-              <textarea
-                name="bio"
-                value={formData.bio}
-                onChange={handleChange}
-                placeholder="Tell us about yourself..."
-                rows="3"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Profile Picture URL (Optional)</label>
-              <input
-                type="url"
-                name="profile_picture"
-                value={formData.profile_picture}
-                onChange={handleChange}
-                placeholder="https://example.com/pic.jpg"
-              />
-            </div>
-          </div>
-
-          <button type="submit" className="btn-primary btn-register" disabled={loading}>
-            {loading ? 'Registering...' : 'Register'}
+          <button type="submit" className="btn-primary btn-register btn-loading" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner"></span>
+                Registering...
+              </>
+            ) : (
+              'Register'
+            )}
           </button>
 
           <p className="auth-switch">

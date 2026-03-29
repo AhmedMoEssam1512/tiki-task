@@ -1,0 +1,149 @@
+/* src/components/Skeleton.css */
+
+/* Base Skeleton Animation */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 0%,
+    #f0f0f0 50%,
+    #e0e0e0 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Skeleton Variants */
+
+/* Text Skeleton */
+.skeleton-text {
+  height: 16px;
+  margin-bottom: 8px;
+}
+
+.skeleton-text:last-child {
+  margin-bottom: 0;
+}
+
+/* Card Skeleton */
+.skeleton-card {
+  height: 80px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+/* Avatar Skeleton */
+.skeleton-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+/* Image Skeleton */
+.skeleton-image {
+  height: 200px;
+  border-radius: 8px;
+}
+
+/* Profile Card Skeleton */
+.profile-skeleton {
+  background: #D6EAF8;
+  padding: 32px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+.profile-header-skeleton {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.profile-info-skeleton {
+  flex: 1;
+}
+
+.profile-details-skeleton {
+  margin-bottom: 16px;
+}
+
+.profile-bio-skeleton {
+  height: 100px;
+  background: white;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+/* Project Cards Skeleton Container */
+.project-cards-skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+/* Task Cards Skeleton Container */
+.task-cards-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Page Skeleton Wrapper */
+.page-skeleton {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Form Skeleton */
+.skeleton-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.skeleton-form .skeleton {
+  margin-bottom: 16px;
+}
+
+.skeleton-form .skeleton:last-child {
+  margin-bottom: 0;
+}
+
+/* Table/List Skeleton */
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-list .skeleton {
+  height: 60px;
+  border-radius: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-header-skeleton {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .project-cards-skeleton {
+    grid-template-columns: 1fr;
+  }
+
+  .page-skeleton {
+    padding: 20px 16px;
+  }
+}

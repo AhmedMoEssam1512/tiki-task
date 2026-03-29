@@ -31,12 +31,12 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-container">
-        <img src={logo} alt="TIKI TASK" className="auth-logo" />
-        <h2 className="auth-title">Forgot Password</h2>
-        
-        <form onSubmit={handleSubmit} className="auth-form">
+    <div className="auth-page forgot-page-centered">
+      <div className="forgot-container">
+        <img src={logo} alt="TIKI TASK" className="forgot-logo" />
+        <h2 className="forgot-title">Forgot Password</h2>
+
+        <form onSubmit={handleSubmit} className="forgot-form">
           <div className="form-group">
             <label>Email Address</label>
             <input
@@ -48,8 +48,15 @@ const ForgotPassword = () => {
             />
           </div>
 
-          <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? 'Sending...' : 'Send OTP'}
+          <button type="submit" className="btn-primary btn-forgot btn-loading" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner"></span>
+                Sending...
+              </>
+            ) : (
+              'Send OTP'
+            )}
           </button>
 
           <p className="auth-switch">

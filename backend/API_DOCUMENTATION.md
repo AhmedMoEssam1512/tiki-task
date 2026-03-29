@@ -450,6 +450,74 @@ Base path: `/api/v1/login`
 
 ---
 
+### 1.7 Change Password
+
+**`PATCH /api/v1/login/change_password`**
+
+> 🔒 Requires authentication.
+
+**Request Body:**
+```json
+{
+  "oldPassword": "mycurrentpassword",
+  "newPassword": "mynewpassword"
+}
+```
+
+#### Outcomes
+
+**1. Success: Password Changed**
+- **Condition:** The token is valid, the user exists, and `oldPassword` matches the current password.
+- **Status Code:** `200 OK`
+- **Response:**
+  ```json
+  {
+    "status": "success",
+    "message": "User found successfully",
+    "data": {
+      "id": 1,
+      "name": "Ahmed Essam",
+      "email": "ahmed@example.com",
+      "username": "ahmed123",
+      "phone": "01012345678",
+      "bio": "Software Developer",
+      "profile_picture": "https://example.com/pic.jpg"
+    }
+  }
+  ```
+
+**2. Problem: User Not Found**
+- **Condition:** The token is valid, but the user ID decoded from it no longer exists in the database.
+- **Status Code:** `404 Not Found`
+- **Response:**
+  ```json
+  {
+    "status": "error",
+    "message": "User not found",
+    "data": {
+      "message": "User not found"
+    }
+  }
+  ```
+
+**3. Problem: Incorrect Old Password**
+- **Condition:** The provided `oldPassword` does not match the user's current hashed password.
+- **Status Code:** `401 Unauthorized`
+- **Response:**
+  ```json
+  {
+    "status": "error",
+    "message": "Invalid credentials",
+    "data": {
+      "message": "Invalid credentials"
+    }
+  }
+  ```
+
+*(Also applies common Authentication errors, see section 5).*
+
+---
+
 ## 2. User
 
 Base path: `/api/v1/user`

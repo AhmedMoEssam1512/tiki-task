@@ -39,12 +39,12 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-container">
-        <img src={logo} alt="TIKI TASK" className="auth-logo" />
-        <h2 className="auth-title">Verify OTP</h2>
-        
-        <form onSubmit={handleSubmit} className="auth-form">
+    <div className="auth-page forgot-page-centered">
+      <div className="forgot-container">
+        <img src={logo} alt="TIKI TASK" className="forgot-logo" />
+        <h2 className="forgot-title">Verify OTP</h2>
+
+        <form onSubmit={handleSubmit} className="forgot-form">
           <p className="otp-instruction">
             Enter the 6-digit code sent to <strong>{email}</strong>
           </p>
@@ -62,8 +62,15 @@ const VerifyOTP = () => {
             />
           </div>
 
-          <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? 'Verifying...' : 'Verify OTP'}
+          <button type="submit" className="btn-primary btn-forgot btn-loading" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner"></span>
+                Verifying...
+              </>
+            ) : (
+              'Verify OTP'
+            )}
           </button>
 
           <p className="auth-switch">

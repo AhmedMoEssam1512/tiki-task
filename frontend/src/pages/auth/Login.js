@@ -87,8 +87,15 @@ const Login = () => {
             </Link>
           </div>
 
-          <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+          <button type="submit" className="btn-primary btn-loading" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner"></span>
+                Logging in...
+              </>
+            ) : (
+              'Login'
+            )}
           </button>
 
           <p className="auth-switch">
