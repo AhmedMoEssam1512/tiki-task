@@ -5,8 +5,10 @@ import { useAuth } from '../../context/AuthContext';
 import API from '../../services/api';
 import { toast } from 'react-toastify';
 import { LogOut } from 'lucide-react';
+import { ProfileSkeleton, ProjectCardSkeleton, TaskCardSkeleton } from '../../components/Skeleton';
 import './Profile.css';
 import defaultProfilePic from '../../assets/images/default_profile_pic.jpg';
+
 
 const MyProfile = () => {
   const { user, logout } = useAuth();
@@ -30,11 +32,24 @@ const MyProfile = () => {
       const tasksRes = await API.get('/task/get_my_tasks');
       setTasks(tasksRes.data.data);
 
-      // Get my projects
+      // Get my projects - handle the nested structure
       const projectsRes = await API.get('/project/get_all_projects');
-      setProjects(projectsRes.data.data);
+      const rawData = projectsRes.data.data;
+      
+      // Flatten projects from nested structure
+      const flattenProjects = (projectsArray) => {
+        if (!projectsArray) return [];
+        return projectsArray.flatMap(group => group.projects || []);
+      };
+      
+      setProjects({
+        ownedProjects: flattenProjects(rawData.ownedProjects),
+        assignedProjects: flattenProjects(rawData.assignedProjects),
+        pendingProjects: flattenProjects(rawData.pendingProjects)
+      });
     } catch (error) {
-      toast.error('Failed to load profile');
+      const message = error.response?.data?.data?.message || error.response?.data?.message || 'Failed to load profile';
+      toast.error(message);
       console.error('Profile fetch error:', error);
     } finally {
       setLoading(false);
@@ -46,7 +61,23 @@ const MyProfile = () => {
     navigate('/login');
   };
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="profile-page">
+        <ProfileSkeleton />
+        <div className="profile-cards">
+          <div className="profile-card todo-card">
+            <h3 className="card-title">To-do List</h3>
+            <TaskCardSkeleton count={3} />
+          </div>
+          <div className="profile-card projects-card">
+            <h3 className="card-title">Owned Projects</h3>
+            <ProjectCardSkeleton count={3} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-page">

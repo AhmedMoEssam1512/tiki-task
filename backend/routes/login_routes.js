@@ -24,4 +24,7 @@ router.route('/otp')
 router.route('/reset_password')
         .patch(loginController.resetPassword);
 
+router.route('/change_password')
+        .patch(authMiddleware.protect,loginController.changePassword);
+
 module.exports = router;

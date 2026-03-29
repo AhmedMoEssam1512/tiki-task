@@ -5,22 +5,39 @@
   padding: 15px 40px;
   background: #c8e7f9;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
 
-.navbar-brand .logo {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: 2px;
+.navbar.scrolled {
+  padding: 8px 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-.logo-tiki {
-  color: #1e3a8a;
+.navbar.scrolled .logo-image {
+  height: 60px;
 }
 
-.logo-task {
-  color: #dc2626;
-  margin-left: 5px;
+.navbar.scrolled .nav-label {
+  display: none;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.logo-image:hover {
+  transform: scale(1.05);
 }
 
 .navbar-menu {
@@ -83,25 +100,7 @@
   .nav-icon {
     font-size: 1.5rem;
   }
-}
 
-.navbar-brand {
-  display: flex;
-  align-items: center;
-}
-
-.logo-image {
-  height: 100px; /* Adjust based on your logo size */
-  width: auto;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-.logo-image:hover {
-  transform: scale(1.05);
-}
-
-@media (max-width: 768px) {
   .logo-image {
     height: 40px;
   }

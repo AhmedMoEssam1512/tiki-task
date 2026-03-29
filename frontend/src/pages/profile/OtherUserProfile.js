@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import API from '../../services/api';
 import { toast } from 'react-toastify';
+import { ProfileSkeleton } from '../../components/Skeleton';
 import './Profile.css';
 import defaultProfilePic from '../../assets/images/default_profile_pic.jpg';
-
 
 const OtherUserProfile = () => {
   const { userId } = useParams();
@@ -21,14 +21,22 @@ const OtherUserProfile = () => {
       const response = await API.get(`/user/view_profile/${userId}`);
       setProfile(response.data.data);
     } catch (error) {
-      toast.error('Failed to load user profile');
+      const message = error.response?.data?.data?.message || error.response?.data?.message || 'Failed to load user profile';
+      toast.error(message);
       console.error('User profile fetch error:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="profile-page">
+        <ProfileSkeleton />
+      </div>
+    );
+  }
+  
   if (!profile) return <div className="error">User not found</div>;
 
   return (

@@ -16,6 +16,9 @@ import ResetPassword from './pages/auth/ResetPassword';
 import MyProfile from './pages/profile/MyProfile';
 import OtherUserProfile from './pages/profile/OtherUserProfile';
 import ProjectsList from './pages/projects/ProjectsList';
+import ProjectDetails from './pages/projects/ProjectDetails';
+import TodoList from './pages/tasks/TodoList';
+import Settings from './pages/settings/Settings';
 
 function App() {
   const { isAuthenticated, loading } = useAuth();
@@ -59,21 +62,21 @@ function App() {
           </ProtectedRoute>
         } />
         
-        <Route path="/projects/:projectId" element={
+        <Route path="/projects/:id" element={
           <ProtectedRoute>
-            <div className="page-placeholder">Project Details - Coming Soon</div>
+            <ProjectDetails />
           </ProtectedRoute>
         } />
         
         <Route path="/tasks" element={
           <ProtectedRoute>
-            <div className="page-placeholder">Tasks Page - Coming Soon</div>
+            <TodoList />
           </ProtectedRoute>
         } />
         
         <Route path="/settings" element={
           <ProtectedRoute>
-            <div className="page-placeholder">Settings Page - Coming Soon</div>
+            <Settings />
           </ProtectedRoute>
         } />
 

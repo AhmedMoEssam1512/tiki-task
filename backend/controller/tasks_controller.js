@@ -35,7 +35,7 @@ const getTaskById = asyncwrapper(async (req, res) => {
 
 const getAllTasksByUser = asyncwrapper(async (req, res) => {
     const inProgressTasks = await taskRepo.getAllTasksByUser(req.user.id,"in-progress");
-    const completedTasks = await taskRepo.getAllTasksByUser(req.user.id,"completed");
+    const completedTasks = await taskRepo.getAllTasksByUser(req.user.id,"finished");
     logger.info("Tasks fetched successfully");
     res.status(200).json({
         success:true,

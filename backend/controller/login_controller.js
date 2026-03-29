@@ -111,6 +111,48 @@ const me = asyncwrapper(async (req, res) => {
     });
 })
 
+const changePassword = asyncwrapper(async (req, res) => {
+    logger.debug(`Changing password for user: ${JSON.stringify(req.user)}`);
+    const user = await userRepo.findById(req.user.id);
+    if(!user){
+        logger.debug(`User not found : ${JSON.stringify({ "id": req.user.id })}`);
+        return res.status(404).json({
+            status : "error",
+            message: 'User not found',
+            data : {
+                message: 'User not found'
+            }
+        });
+    }
+    const isPasswordValid = await bcrypt.compare(req.body.oldPassword, user.password);
+    if(!isPasswordValid){
+        logger.debug(`Invalid password : ${JSON.stringify({ "identifier": req.body.oldPassword })}`);
+        return res.status(401).json({
+            status : "error",
+            message: 'Invalid credentials',
+            data : {
+                message: 'Invalid credentials'
+            }
+        });
+    }
+    const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+    await userRepo.update(req.user.id, { password: hashedPassword });
+    logger.info(`User found : ${user.username}`);
+    res.status(200).json({
+        status : "success",
+        message: 'User found successfully',
+        data : {
+            id : user.id,
+            name : user.name,
+            email : user.email,
+            username : user.username,
+            phone : user.phone,
+            bio : user.bio,
+            profile_picture : user.profile_picture,
+        }
+    });
+})
+
 
 
 /**
@@ -261,5 +303,6 @@ module.exports = {
     me,
     forgetPassword,
     verifyOTP,
-    resetPassword
+    resetPassword,
+    changePassword
 }

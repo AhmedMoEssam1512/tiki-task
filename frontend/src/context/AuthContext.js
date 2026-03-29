@@ -30,11 +30,24 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (identifier, password) => {
-    const response = await API.post('/login/', { identifier, password });
-    const { token, data } = response.data;
-    localStorage.setItem('token', token);
-    setUser(data);
-    return response.data;
+    try {
+      console.log('Attempting login with:', { identifier, password: '***' });
+      const response = await API.post('/login/', { identifier, password });
+      console.log('Login response:', response.data);
+      
+      const { token, data } = response.data;
+      if (!token) {
+        throw new Error('No token received from server');
+      }
+      
+      localStorage.setItem('token', token);
+      setUser(data);
+      return response.data;
+    } catch (error) {
+      console.error('Login error:', error);
+      console.error('Error response:', error.response?.data);
+      throw error;
+    }
   };
 
   const register = async (userData) => {

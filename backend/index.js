@@ -6,7 +6,7 @@ const logger = require("./config/logger");
 const sequelize = require("./config/database");
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4001;
 
 const loginRoutes = require('./routes/login_routes');
 const userRoutes = require('./routes/user_routes');
